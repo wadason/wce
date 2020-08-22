@@ -6,7 +6,7 @@
 
 プログラムの構成要素と考える。
 インポートパスの最後の要素が、実際のパッケージの名前になる。
-```
+```go
 import (
 	"fmt"
 	"math/rand" // package rand
@@ -17,7 +17,7 @@ import (
 
 factoredインポートステートメント( factored import statement )という。
 factoredは「要素化、グループ化、整理済み」という意味。
-```
+```go
 // factoredインポートステートメント
 import (
 	"fmt"
@@ -43,11 +43,11 @@ import "math"
 
 ## 4.Functions
 
-```
+```go
 func ${method_name} (${arg} ${型}, ....){}
 ```
 
-```
+```go
 func add(x int, y int) int {
 	return x + y
 }
@@ -60,7 +60,7 @@ goの関数の考え方
 ## 5.Functions continued
 
 ただ単に省略できるよって話。
-```
+```go
 func add(x, y int) int {
 	return x + y
 }
@@ -69,7 +69,7 @@ func add(x, y int) int {
 ## 6.Multiple results
 関数には複数の戻り値を返すことができる。
 
-```
+```go
 func swap(x, y string) (string, string) {
 	return y, x
 }
@@ -85,7 +85,7 @@ func main() {
 "naked return"という小技。
 これを使うときは、短い関数で利用すべき。
 
-```
+```go
 func split(sum int) (x, y int) {
 	x = sum * 4 / 9
 	y = sum - x
@@ -103,7 +103,7 @@ varで宣言。複数可能。
 
 ## 9.Variables with initializers
 
-```
+```go
 var i, j int
 i, j = 1, 2
 // ↓
@@ -115,7 +115,7 @@ var i, j int = 1, 2
 
 暗黙的な型宣言の話。
 
-```
+```go
 // 同じ
 var i = 3
 k := 3
@@ -125,7 +125,7 @@ k := 3
 
 Go言語の基本型(組み込み型)
 
-```
+```go
 bool
 
 string
@@ -167,7 +167,7 @@ string型:
 
 型推論の話。明示的に型を指定しない場合( := や var = のいずれか)は型推論される。
 
-```
+```go
 i := 42           // int
 f := 3.142        // float64
 g := 0.867 + 0.5i // complex128
@@ -187,3 +187,7 @@ g := 0.867 + 0.5i // complex128
 [Go の定数の話](https://qiita.com/hkurokawa/items/a4d402d3182dff387674)
 
 定数に型がない場合に、独自定義型の変数にも代入が可能。
+
+Goの式では明示的な型変換を要求される。(Cで暗黙的型変換でbugが多かった反省から)
+定数だけは、例外で、型を持たないことが可能である(`untyped`)。
+
