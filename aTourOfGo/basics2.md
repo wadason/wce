@@ -89,7 +89,9 @@ return lim
 ## 9.Switch
 
 > Go では選択された case だけを実行してそれに続く全ての case は実行されません。
+
 breakかく必要なないとのこと。
+
 switchケースは定数である必要がないとのこと。
 
 ```go
@@ -105,11 +107,11 @@ default:
 }
 ```
 
-## Switch evaluation order
+## 10.Switch evaluation order
 
 goのswitch caseは上から下へ評価されるため、case条件が一致した時点でbreakされる。
 
-## Switch with no condition
+## 11.Switch with no condition
 
 "if-then-else" 
 
@@ -124,7 +126,7 @@ switch {
 }
 ```
 
-## Defer
+## 12.Defer
 
 returnするまで処理をしない。
 評価自体は行われるが、実行自体はreturn直後になる。
@@ -137,7 +139,7 @@ func main() {
 }
 ```
 
-## Stacking defers
+## 13.Stacking defers
 
 `defer`を複数定義した時に、その実行の順序はLIFOとなる。
 
