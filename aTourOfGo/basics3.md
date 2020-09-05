@@ -171,3 +171,187 @@ a[:10]
 a[0:]
 a[:]
 ```
+
+## 11.Slice length and capacity
+
+スライスは、長さ(length)と容量(capacity)を持っている。
+スライスの長さは、それに含まれる要素の数。容量はスライスの最初の要素から計算した配列要素数。
+
+```go
+	s := []int{2, 3, 5, 7, 11, 13}
+	printSlice(s)
+
+	// Slice the slice to give it zero length.
+	s = s[:0]
+	printSlice(s)
+
+	// Extend its length.
+	s = s[:4]
+	printSlice(s)
+
+	// Drop its first two values.
+	s = s[2:]
+  printSlice(s)
+
+func printSlice(s []int) {
+	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+}
+```
+
+## 12.Nil slices
+
+スライスのゼロ値はnil。nilスライスは0の長さと容量を持っている。
+
+## 13.Creating a slice with make
+
+`make`による動的サイズの配列作成。
+
+```go
+a := make([]int, 5)  // len(a)=5
+
+b := make([]int, 0, 5) // len(b)=0, cap(b)=5
+```
+
+## 14.Slices of slices
+
+連想配列。
+
+```go
+// Create a tic-tac-toe board.
+board := [][]string{
+  []string{"_", "_", "_"},
+  []string{"_", "_", "_"},
+  []string{"_", "_", "_"},
+}
+
+// The players take turns.
+board[0][0] = "X"
+board[2][2] = "O"
+board[1][2] = "X"
+board[1][0] = "O"
+board[0][2] = "X"
+```
+
+## 15.Appending to a slice
+
+> append の戻り値は、追加元のスライスと追加する変数群を合わせたスライスとなります。
+
+```go
+func append(s []T, vs ...T) []T
+
+func main() {
+	var s []int
+	printSlice(s) // len=0 cap=0 []
+
+	// append works on nil slices.
+	s = append(s, 0)
+	printSlice(s) // len=1 cap=1 [0]
+
+	// The slice grows as needed.
+	s = append(s, 1)
+	printSlice(s) // len=2 cap=2 [0 1]
+
+	// We can add more than one element at a time.
+	s = append(s, 2, 3, 4)
+	printSlice(s) // len=5 cap=6 [0 1 2 3 4]
+}
+
+func printSlice(s []int) {
+	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+}
+```
+
+## 16.Range
+
+`for`のループで利用する`range`はスライスやマップ(map)を反復処理できる。
+
+```go
+  var pow = []int{1, 2, 4, 8, 16, 32, 64, 128}
+
+	for i, v := range pow {
+		fmt.Printf("2**%d = %d\n", i, v)
+	}
+```
+
+## 17.Range continued
+
+`_`で必要ない値は捨てる。
+
+```go
+for i, _ := range pow
+for _, value := range pow
+```
+
+## 19.Maps
+
+キーと値を関連ずける。
+
+```go
+type Vertex struct {
+	Lat, Long float64
+}
+
+var m map[string]Vertex // 配列と、上の構造体を紐付けている
+
+func main() {
+	m = make(map[string]Vertex)
+	m["Bell Labs"] = Vertex{
+		40.68433, -74.39967,
+	}
+	fmt.Println(m["Bell Labs"])
+}
+```
+
+## 20.Map literals
+
+> mapリテラルは、structリテラルに似ていますが、 キー ( key )が必要です。
+
+## 21.Map literals continued
+
+> もし、mapに渡すトップレベルの型が単純な型名である場合は、リテラルの要素から推定できますので、その型名を省略することができます。
+
+
+```go
+var m = map[string]Vertex{
+	"Bell Labs": {40.68433, -74.39967}, // "Bell Labs": Vertex{ 40.68433,-74.39967 }
+	"Google":    {37.42202, -122.08408},
+}
+
+```
+
+## 22.Mutating Maps
+
+- m へ要素(elem)の挿入や更新
+  - `m[key] = elem`
+- 要素の取得:
+  - `elem = m[key]`
+- 要素の削除
+  - `delete(m, key)`
+- キーに対する要素が存在するかどうかは、2つの目の値で確認
+  - `elem, ok = m[key]` or `elem, ok := m[key]`
+  - もし、 m に key があれば、変数 ok は true となり、存在しなければ、 ok は false となります。
+  - 存在しない場合は、mapの要素型のゼロ値となる
+
+## 24.Function values
+
+> 関数値( function value )は、関数の引数に取ることもできますし、戻り値としても利用できます。
+
+```go
+func compute(fn func(float64, float64) float64) float64 {
+	return fn(3, 4)
+}
+
+func main() {
+	hypot := func(x, y float64) float64 {
+		return math.Sqrt(x*x + y*y)
+	}
+	fmt.Println(hypot(5, 12))
+
+	fmt.Println(compute(hypot))
+	fmt.Println(compute(math.Pow))
+}
+```
+
+## 25.Function closures
+
+Goの関数はクロージャ。
